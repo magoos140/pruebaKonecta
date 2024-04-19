@@ -47,6 +47,7 @@ const LoginRegister = () => {
               name="nombre"
               value={registroData.nombre}
               onChange={handleRegistroChange}
+              required
             />
           </label>
           <label>
@@ -56,6 +57,7 @@ const LoginRegister = () => {
               name="correo"
               value={registroData.correo}
               onChange={handleRegistroChange}
+              required
             />
           </label>
           <label>
@@ -65,6 +67,7 @@ const LoginRegister = () => {
               name="contraseña"
               value={registroData.contraseña}
               onChange={handleRegistroChange}
+              required
             />
           </label>
           <label>
@@ -74,6 +77,7 @@ const LoginRegister = () => {
               name="salario"
               value={registroData.salario}
               onChange={handleRegistroChange}
+              required
             />
           </label>
           <label>
@@ -83,6 +87,7 @@ const LoginRegister = () => {
               name="fecha_ingreso"
               value={registroData.fechaIngreso}
               onChange={handleRegistroChange}
+              required
             />
           </label>
           <div className="button__container">

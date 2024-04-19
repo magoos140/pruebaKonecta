@@ -3,6 +3,7 @@ import '../css/App.css';
 import { getUserId } from '../api/getInfo/getUserId';
 import { getAllUsers } from '../api/getInfo/getAllUsers';
 import { newAdmin } from '../api/admin/newAdmin';
+import { deleteUser } from '../api/delete/deleteUser';
 
 const Employ = () => {
     const [empleados, setEmpleados] = useState([]);
@@ -37,9 +38,9 @@ const Employ = () => {
 
     const handleConcederPermiso = async (id) => {
         try {
-            const userId = localStorage.getItem('id'); // Obtener el ID del usuario administrador
+            const userId = localStorage.getItem('id');
             if (userId) {
-                await newAdmin(parseInt(userId), id); // Llamar a la función newAdmin con los IDs
+                await newAdmin(parseInt(userId), id);
                 console.log('Permisos concedidos al usuario con ID:', id);
                 alert('Permisos concedidos exitosamente.');
             } else {
@@ -48,6 +49,26 @@ const Employ = () => {
         } catch (error) {
             console.error('Error al conceder permisos:', error);
             alert('Error al conceder permisos. Por favor, inténtalo de nuevo.');
+        }
+    };
+
+    const handleEliminarUsuario = async (id) => {
+        try {
+            const userId = localStorage.getItem('id');
+            console.log("🚀 ~ handleEliminarUsuario ~ userId:", userId)
+            if (userId) {
+                await deleteUser(parseInt(userId), id);
+                console.log('Usuario eliminado con ID:', id);
+                alert('Usuario eliminado exitosamente.');
+
+                // Eliminar al usuario del estado empleados
+                setEmpleados(prevEmpleados => prevEmpleados.filter(empleado => empleado.id !== id));
+            } else {
+                console.error('No se pudo obtener el ID del usuario administrador desde el localStorage.');
+            }
+        } catch (error) {
+            console.error('Error al eliminar usuario:', error);
+            alert('Error al eliminar usuario. Por favor, inténtalo de nuevo.');
         }
     };
 
@@ -78,7 +99,7 @@ const Employ = () => {
                                         <button onClick={() => handleConcederPermiso(empleado.id)}>Conceder</button>
                                     </td>
                                     <td>
-                                        <button>Eliminar</button>
+                                        <button onClick={() => handleEliminarUsuario(empleado.id)}>Eliminar</button>
                                     </td>
                                 </>
                             )}
