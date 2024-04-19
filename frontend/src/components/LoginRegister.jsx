@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { registerUser } from "../api/register/registerUser";
 
 const LoginRegister = () => {
   const [registroData, setRegistroData] = useState({
@@ -6,18 +7,33 @@ const LoginRegister = () => {
     contraseña: "",
     nombre: "",
     salario: "",
-    fechaIngreso: "",
+    fecha_ingreso: "",
   });
+
+  const [registroExitoso, setRegistroExitoso] = useState(false);
+  const [mensajeError, setMensajeError] = useState("");
 
   const handleRegistroChange = (e) => {
     const { name, value } = e.target;
     setRegistroData({ ...registroData, [name]: value });
   };
 
-  const handleRegistroSubmit = (e) => {
+  const handleRegistroSubmit = async (e) => {
     e.preventDefault();
-    console.log("Datos de registro:", registroData);
+    try {
+      const response = await registerUser(registroData);
+      console.log("Token recibido:", response.token);
+      localStorage.setItem('token', response.token);
+      setRegistroExitoso(true);
+      setMensajeError("");
+    } catch (error) {
+      console.error("Error al registrar usuario:", error);
+      // Muestra el mensaje de error
+      setMensajeError("Hubo un error al registrar el usuario. Por favor, intenta nuevamente.");
+      setRegistroExitoso(false);
+    }
   };
+
 
   return (
     <div className="register__form_container">
@@ -64,12 +80,16 @@ const LoginRegister = () => {
             Fecha de ingreso:
             <input
               type="date"
-              name="fechaIngreso"
+              name="fecha_ingreso"
               value={registroData.fechaIngreso}
               onChange={handleRegistroChange}
             />
           </label>
+          <div className="button__container">
           <button type="submit" className="button__form">Registrarse</button>
+        {registroExitoso && <p className="registro__exitoso">Registro exitoso. Ahora puedes iniciar sesion</p>}
+          {mensajeError && <p className="mensaje__error">{mensajeError}</p>}
+          </div>
         </form>
       </div>
     </div>

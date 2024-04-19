@@ -7,32 +7,25 @@ const Usuario = require('../models/usuario');
 
 async function registrarUsuario(req, res) {
     try {
-        // Verificar si hay errores de validación en la solicitud
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        // Extraer los datos de la solicitud
         const { correo, contraseña, fecha_ingreso, nombre, salario } = req.body;
-        const id_rol = 1; // Definir el valor predeterminado para el rol
+        const id_rol = 1; 
 
-        // Verificar si el correo ya está registrado
         const usuarioExistente = await Usuario.findOne({ where: { correo } });
         if (usuarioExistente) {
             return res.status(400).json({ error: 'El correo ya está registrado' });
         }
 
-        // Hashear la contraseña
         const hashContraseña = await bcrypt.hash(contraseña, 10);
 
-        // Crear el usuario en la base de datos
         const nuevoUsuario = await Usuario.create({ correo, contraseña: hashContraseña, fecha_ingreso, nombre, salario, id_rol });
 
-        // Generar un token JWT
         const token = jwt.sign({ id: nuevoUsuario.id, correo: nuevoUsuario.correo }, secret, { expiresIn: '1h' });
 
-        // Enviar el token como respuesta
         res.json({ token });
     } catch (error) {
         console.error('Error al registrar usuario:', error);
