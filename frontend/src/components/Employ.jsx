@@ -1,38 +1,74 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../css/App.css';
+import { getUserId } from '../api/getInfo/getUserId';
+import { getAllUsers } from '../api/getInfo/getAllUsers';
 
 const Employ = () => {
-    const empleados = [
-        { id: 1, nombre: 'Juan Pérez', ingreso: '2024-04-20', salario: '$3000' },
-        { id: 2, nombre: 'María Rodríguez', ingreso: '2023-08-15', salario: '$3500' },
-        { id: 3, nombre: 'Carlos González', ingreso: '2022-11-10', salario: '$3200' },
-        { id: 4, nombre: 'Laura Martínez', ingreso: '2021-06-25', salario: '$3800' },
-        { id: 5, nombre: 'Pedro Sánchez', ingreso: '2020-02-12', salario: '$4000' },
-    ];
+    const [empleados, setEmpleados] = useState([]);
+    const [userRole, setUserRole] = useState(null);
+
+    useEffect(() => {
+        const fetchUserRole = async () => {
+            try {
+                const userId = localStorage.getItem('id'); 
+                if (userId) {
+                    const response = await getUserId(userId); 
+                    setUserRole(response.usuario.id_rol); 
+                }
+            } catch (error) {
+                console.error('Error al obtener el rol del usuario:', error);
+            }
+        };
+
+        fetchUserRole(); 
+
+        const fetchUsers = async () => {
+            try {
+                const response = await getAllUsers();
+                setEmpleados(response.usuarios);
+            } catch (error) {
+                console.error('Error al obtener usuarios:', error);
+            }
+        };
+
+        fetchUsers();
+    }, []);
+
+    const handleConcederPermiso = (id) => {
+        console.log('Conceder permiso al empleado con ID:', id);
+    };
 
     return (
         <div className='container__employees'>
             <h2>Lista de empleados</h2>
-            <table>
-                <thead>
+            <table className='table__employ'>
+                <thead className='head__column'>
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Ingreso</th>
                         <th>Salario</th>
-                        <th>Eliminar</th>
+                        {userRole === 2 && <th>Permiso</th>}
+                        {userRole === 2 && <th>Eliminar</th>}
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className='body__column'>
                     {empleados.map(empleado => (
                         <tr key={empleado.id}>
                             <td>{empleado.id}</td>
                             <td>{empleado.nombre}</td>
-                            <td>{empleado.ingreso}</td>
-                            <td>{empleado.salario}</td>
-                            <td>
-                                <button>Eliminar</button>
-                            </td>
+                            <td>{empleado.fecha_ingreso}</td>
+                            <td>$ {empleado.salario}</td>
+                            {userRole === 2 && (
+                                <>
+                                    <td>
+                                        <button onClick={() => handleConcederPermiso(empleado.id)}>Conceder</button>
+                                    </td>
+                                    <td>
+                                        <button>Eliminar</button>
+                                    </td>
+                                </>
+                            )}
                         </tr>
                     ))}
                 </tbody>
@@ -41,4 +77,4 @@ const Employ = () => {
     );
 };
 
-export default Employ;
+export default Employ

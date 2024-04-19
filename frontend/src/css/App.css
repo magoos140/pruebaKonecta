@@ -85,3 +85,40 @@
 .button__container p{
   font-size: small;
 }
+
+.container__employees{
+  background: linear-gradient(white 80%, #eee 90%, #ccc 100%);
+  padding:10px 20px;
+  border-radius: 5px;
+}
+
+.dashboard__Role{
+  color: #00FF00;
+}
+
+.logout__button{
+  background-color: #040b25;
+  color: #fff;
+  height: 30px;
+  border-radius: 3px;
+}
+
+.logout__button:hover{
+  background-color: #fff;
+  color: #040b25;
+  border: #040b25 solid 1px;
+  cursor: pointer;
+}
+
+.container__employ{
+  width: 80%;
+  margin: 0 auto;
+}
+
+.table__employ{
+  width: 100%;
+}
+
+td{
+  text-align: center;
+}
