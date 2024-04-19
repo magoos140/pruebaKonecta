@@ -1,0 +1,79 @@
+.app__container {
+  background: radial-gradient(circle, #040b25 85%, #000 100%); /* Degradado circular */
+  height: 100vh;
+}
+
+
+
+.container__header{
+  background-color: #fff;
+  padding: 1% 5%; 
+}
+
+.header__konecta{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.forms__container{
+  margin: 20px auto;
+  width: 88%;
+  height: fit-content;
+  display: flex;
+  gap: 20px;
+}
+
+.login__form_container,
+.register__form_container {
+  background: linear-gradient(white 80%, #eee 90%, #ccc 100%); /* Transición suave */
+  width: 48%;
+  border-radius: 5px;
+  padding: 10px;
+  padding-bottom: 30px;
+}
+
+.form__register, .form__login{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form__register label, .form__login label{
+  width: 100%;
+  display: flex;
+  gap: 20px;
+ justify-content: space-between;
+}
+
+.form__register label input, .form__login label input{
+  width: 70%;
+}
+
+.container__title_app{
+  display: flex;
+  justify-content: center;
+}
+
+.title__app{
+  color: #fff;
+}
+
+.form__title{
+  font-weight: 400;
+}
+
+.button__form{
+  background-color: #040b25;
+  color: #fff;
+  width: 20%;
+  height: 30px;
+  margin-top: 20px;
+  border-radius: 3px;
+}
+
+.button__form:hover{
+  background-color: #fff;
+  color: #040b25;
+  border: #040b25 solid 1px;
+  cursor: pointer;
+}
