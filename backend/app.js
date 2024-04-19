@@ -20,8 +20,6 @@ const getInfoRoutes = require('./src/routes/getInfoRoutes');
 // Usar las rutas
 app.use('/roles', rolesRoutes); 
 app.use('/usuarios', usuariosRoutes);
-app.use('/login', usuariosRoutes);
-app.use('/eliminar', usuariosRoutes);
 app.use('/get', getInfoRoutes);
 
 

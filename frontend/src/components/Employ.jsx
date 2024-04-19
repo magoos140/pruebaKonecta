@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../css/App.css';
 import { getUserId } from '../api/getInfo/getUserId';
 import { getAllUsers } from '../api/getInfo/getAllUsers';
+import { newAdmin } from '../api/admin/newAdmin';
 
 const Employ = () => {
     const [empleados, setEmpleados] = useState([]);
@@ -10,17 +11,17 @@ const Employ = () => {
     useEffect(() => {
         const fetchUserRole = async () => {
             try {
-                const userId = localStorage.getItem('id'); 
+                const userId = localStorage.getItem('id');
                 if (userId) {
-                    const response = await getUserId(userId); 
-                    setUserRole(response.usuario.id_rol); 
+                    const response = await getUserId(userId);
+                    setUserRole(response.usuario.id_rol);
                 }
             } catch (error) {
                 console.error('Error al obtener el rol del usuario:', error);
             }
         };
 
-        fetchUserRole(); 
+        fetchUserRole();
 
         const fetchUsers = async () => {
             try {
@@ -34,8 +35,20 @@ const Employ = () => {
         fetchUsers();
     }, []);
 
-    const handleConcederPermiso = (id) => {
-        console.log('Conceder permiso al empleado con ID:', id);
+    const handleConcederPermiso = async (id) => {
+        try {
+            const userId = localStorage.getItem('id'); // Obtener el ID del usuario administrador
+            if (userId) {
+                await newAdmin(parseInt(userId), id); // Llamar a la función newAdmin con los IDs
+                console.log('Permisos concedidos al usuario con ID:', id);
+                alert('Permisos concedidos exitosamente.');
+            } else {
+                console.error('No se pudo obtener el ID del usuario administrador desde el localStorage.');
+            }
+        } catch (error) {
+            console.error('Error al conceder permisos:', error);
+            alert('Error al conceder permisos. Por favor, inténtalo de nuevo.');
+        }
     };
 
     return (
@@ -77,4 +90,4 @@ const Employ = () => {
     );
 };
 
-export default Employ
+export default Employ;
