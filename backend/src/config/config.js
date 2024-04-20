@@ -2,10 +2,10 @@
 
 module.exports = {
     database: {
-      host: 'localhost',
+      host: 'mysqldb',
       user: 'root',
       password: '12345678',
-      database: 'prueba_tecnica_bdatos',
+      database: 'tecnica',
     },
     SECRET_KEY: '12345678',
   };

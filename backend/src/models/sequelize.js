@@ -7,9 +7,7 @@ const sequelize = new Sequelize(database.database, database.user, database.passw
   dialect: 'mysql',
   username: database.user, 
   password: database.password, 
-  database: database.database, 
-  host: database.host, 
-  dialect: 'mysql', 
+  database: database.database
 });
 
 module.exports = sequelize;

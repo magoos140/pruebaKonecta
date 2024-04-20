@@ -23,7 +23,7 @@ app.use('/usuarios', usuariosRoutes);
 app.use('/get', getInfoRoutes);
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Servidor Express iniciado en el puerto ${PORT}`);
 });
